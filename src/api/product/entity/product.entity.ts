@@ -1,35 +1,32 @@
-import {
-  Column,
-  Entity, ObjectIdColumn
-} from "typeorm";
+import { Column, Entity, ObjectIdColumn } from 'typeorm';
 
-@Entity({ name: "products" })
+@Entity({ name: 'products' })
 export class Product {
   @ObjectIdColumn()
   id: number;
 
   @Column({
-    type: "string"
+    type: 'string',
   })
   name: string;
 
   @Column({
-    type: "string"
+    type: 'string',
   })
   description: string;
 
   @Column({
-    type: "string"
+    type: 'string',
   })
   price: string;
 
   @Column({
-    type: "date"
+    type: 'date',
   })
   createdAt: any;
 
   @Column({
-    type: "date"
+    type: 'date',
   })
   updatedAt: any;
 }

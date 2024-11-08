@@ -13,7 +13,7 @@ export class SearchService
   }
 
   public async insertIndex(bulkData: any): Promise<any> {
-    console.log('🚀 ~ insertIndex ~ bulkData:', bulkData);
+    console.log('🐔 =>  bulkData:', bulkData);
     return this.bulk(bulkData)
       .then((res) => res)
       .catch((err) => {

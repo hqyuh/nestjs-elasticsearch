@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { InjectConnection } from '@nestjs/typeorm';
+import { InjectDataSource } from '@nestjs/typeorm';
 import { Product } from 'src/api/product/entity/product.entity';
 import { ProductElasticIndex } from 'src/module/search/index/product.elastic.index';
 import {
-  Connection,
+  DataSource,
   EntitySubscriberInterface,
   InsertEvent,
   UpdateEvent,
@@ -11,10 +11,10 @@ import {
 @Injectable()
 export class ProductSubcriber implements EntitySubscriberInterface<Product> {
   constructor(
-    @InjectConnection() readonly connection: Connection,
+    @InjectDataSource() readonly dataSource: DataSource,
     private readonly productEsIndex: ProductElasticIndex,
   ) {
-    connection.subscribers.push(this);
+    dataSource.subscribers.push(this);
   }
 
   public listenTo(): any {
@@ -22,14 +22,12 @@ export class ProductSubcriber implements EntitySubscriberInterface<Product> {
   }
 
   public async afterInsert(event: InsertEvent<Product>): Promise<any> {
-    console.log(
-      '🚀 ~ ProductSubcriber ~ afterInsert ~ event.entity:',
-      event.entity,
-    );
+    console.log('🐔 =>  event afterInsert:', event);
     return this.productEsIndex.insertProductDocument(event.entity as Product);
   }
 
   public async afterUpdate(event: UpdateEvent<Product>): Promise<any> {
+    console.log('🐔 =>  event afterUpdate:', event);
     return this.productEsIndex.updateProductDocument(event.entity as Product);
   }
 }
